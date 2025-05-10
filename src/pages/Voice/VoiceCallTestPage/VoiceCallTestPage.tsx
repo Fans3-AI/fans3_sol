@@ -5,9 +5,9 @@ import { UIKitProvider } from "@tencentcloud/uikit-base-component-react";
 const VoiceCallTestPage: React.FC = () => {
   useEffect(() => {
     TUICallKitServer.init({
-      SDKAppID: 20022920,
+      SDKAppID: Number(import.meta.env.VITE_TUI_APP_ID),
       userID: "usertest",
-      userSig: import.meta.env.VITE_TUI_CUSTOM_SIG,
+      userSig: import.meta.env.VITE_TUI_USER_SIG,
     });
   });
 

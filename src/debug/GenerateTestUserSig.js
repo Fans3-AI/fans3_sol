@@ -6,7 +6,7 @@ import LibGenerateTestUserSig from "./lib-generate-test-usersig-es.min";
  * and you will see the SDKAppID.
  * It is a unique identifier used by to identify users.
  */
-const SDKAppID = 20022920;
+const SDKAppID = "";
 
 /**
  * Signature expiration time, which should not be too short
@@ -29,8 +29,7 @@ const EXPIRETIME = 604800;
  * unauthorized traffic use caused by the leakage of encryption key.
  * Document: https://trtc.io/document/34385?product=chat&menulabel=serverapis
  */
-const SECRETKEY =
-  "84fab3c04278efad3c758ea89e81070facb7fe3e4542d7ee4c097ee579ed3f89";
+const SECRETKEY = "";
 
 /**
  * Module: GenerateTestUserSig

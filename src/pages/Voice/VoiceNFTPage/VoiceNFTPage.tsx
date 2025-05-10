@@ -348,7 +348,7 @@ const VoiceNFTPage: React.FC = () => {
     TUICallKitServer.init({
       SDKAppID: Number(import.meta.env.VITE_TUI_APP_ID),
       userID: "customtest",
-      userSig: import.meta.env.VITE_TUI_USER_SIG,
+      userSig: import.meta.env.VITE_TUI_CUSTOM_SIG,
     });
   }, []);
 
