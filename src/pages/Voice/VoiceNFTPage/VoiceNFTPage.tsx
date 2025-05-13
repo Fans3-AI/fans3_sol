@@ -38,7 +38,9 @@ import { walletAdapterIdentity } from "@metaplex-foundation/umi-signer-wallet-ad
 import { base58 } from "@metaplex-foundation/umi";
 import { UserPublic, VoicePublic } from "../../../api/fe-client-typescript";
 import axios from "axios";
-const endpoint = "https://api.devnet.solana.com";
+const endpoint = `https://mainnet.helius-rpc.com/?api-key=${
+  import.meta.env.VITE_HELIUS_API_KEY
+}`;
 const { Title, Text } = Typography;
 
 const styles = {
@@ -85,6 +87,11 @@ const VoiceNFTPage: React.FC = () => {
         audioUrl: status.audioUrl || "",
       });
     }
+    TUICallKitServer.init({
+      SDKAppID: Number(import.meta.env.VITE_TUI_APP_ID),
+      userID: "customtest",
+      userSig: import.meta.env.VITE_TUI_CUSTOM_SIG,
+    });
   }, []);
 
   useEffect(() => {
@@ -146,7 +153,7 @@ const VoiceNFTPage: React.FC = () => {
         "https://salmon-fashionable-cattle-908.mypinata.cloud/ipfs/" + audioCid;
 
       const metadata = {
-        name: "My NFT whh",
+        name: "My NFT",
         description: "This is an NFT with image and audio",
         image: imageUri,
         animation_url: audioUri,
@@ -268,6 +275,7 @@ const VoiceNFTPage: React.FC = () => {
     }
   };
 
+  //Mint Solana  NFT
   const MintButton = () => {
     const { wallet, publicKey, connected } = useWallet();
 
@@ -298,7 +306,7 @@ const VoiceNFTPage: React.FC = () => {
         await createProgrammableNft(umi, {
           mint,
           authority: umi.identity,
-          name: "Voice NFT zuixin",
+          name: "Voice NFT",
           uri: metadataUri as string,
           sellerFeeBasisPoints: percentAmount(5.5),
           ruleSet: null,
@@ -308,7 +316,7 @@ const VoiceNFTPage: React.FC = () => {
             showSuccess("NFT minted successfully!");
             const signature = base58.deserialize(res.signature)[0];
             console.log(
-              `NFT minted successfully!\nTX: https://explorer.solana.com/tx/${signature}?cluster=devnet`
+              `https://explorer.solana.com/tx/${signature}?cluster=mainnet-beta`
             );
 
             await addVoice();
@@ -330,11 +338,11 @@ const VoiceNFTPage: React.FC = () => {
         type="primary"
         onClick={handleMint}
         className="generateButton"
-        style={{ width: "130px" }}
+        style={{ width: "200px" }}
         disabled={isUploading}
       >
         <img src={icons["leida"]} className="iconImg" alt="generate icon" />
-        Generate NFT
+        Generate Solana NFT
       </Button>
     );
   };
@@ -344,14 +352,7 @@ const VoiceNFTPage: React.FC = () => {
     init(speechId as number);
     console.log("Selected Speech ID:", speechId);
   };
-  useEffect(() => {
-    TUICallKitServer.init({
-      SDKAppID: Number(import.meta.env.VITE_TUI_APP_ID),
-      userID: "customtest",
-      userSig: import.meta.env.VITE_TUI_CUSTOM_SIG,
-    });
-  }, []);
-
+  //init TRTC
   const init = async (speechId: number) => {
     await callApi
       .createCall({
@@ -436,14 +437,14 @@ const VoiceNFTPage: React.FC = () => {
       </Flex>
       <Flex vertical flex={1}>
         <Row>
-          <Col span={9}>
+          <Col span={18}>
             <Flex vertical>
               <Divider className="textToSpeechDivider" />
               <Text className="textToSpeechLabel">Output</Text>
               <div>
                 <Row gutter={[16, 16]}>
                   {voices.map((voice, index) => (
-                    <Col span={4} key={voice.id || index}>
+                    <Col span={2} key={voice.id || index}>
                       <NFTCard
                         key={voice.id}
                         NftImageUrl={voice.profilePic?.downloadUrl}
